@@ -7,43 +7,32 @@
  * @noflow
  * @nolint
  * @preventMunge
- * @generated SignedSource<<3c36d2bec2ca67d95aca9dd486109ea6>>
+ * @generated SignedSource<<54cf771c835c47a9b7a7eef69b8e06d3>>
  */
 
 "use strict";
-var dynamicFlagsUntyped = require("ReactNativeInternalFeatureFlags"),
-  disableDefaultPropsExceptForClasses =
-    dynamicFlagsUntyped.disableDefaultPropsExceptForClasses,
-  enableFastJSX = dynamicFlagsUntyped.enableFastJSX,
+var renameElementSymbol =
+    require("ReactNativeInternalFeatureFlags").renameElementSymbol,
   REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"),
-  REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"),
-  enableFastJSXWithStringRefs = enableFastJSX && !0,
-  enableFastJSXWithoutStringRefs = enableFastJSXWithStringRefs && !0;
+  REACT_ELEMENT_TYPE = renameElementSymbol
+    ? Symbol.for("react.transitional.element")
+    : REACT_LEGACY_ELEMENT_TYPE,
+  REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
 function jsxProd(type, config, maybeKey) {
   var key = null;
   void 0 !== maybeKey && (key = "" + maybeKey);
   void 0 !== config.key && (key = "" + config.key);
-  if (
-    (!enableFastJSXWithoutStringRefs &&
-      (!enableFastJSXWithStringRefs || "ref" in config)) ||
-    "key" in config
-  ) {
+  if ("key" in config) {
     maybeKey = {};
     for (var propName in config)
       "key" !== propName && (maybeKey[propName] = config[propName]);
   } else maybeKey = config;
-  if (!disableDefaultPropsExceptForClasses && type && type.defaultProps) {
-    config = type.defaultProps;
-    for (var propName$0 in config)
-      void 0 === maybeKey[propName$0] &&
-        (maybeKey[propName$0] = config[propName$0]);
-  }
-  propName$0 = maybeKey.ref;
+  config = maybeKey.ref;
   return {
-    $$typeof: REACT_LEGACY_ELEMENT_TYPE,
+    $$typeof: REACT_ELEMENT_TYPE,
     type: type,
     key: key,
-    ref: void 0 !== propName$0 ? propName$0 : null,
+    ref: void 0 !== config ? config : null,
     props: maybeKey
   };
 }
